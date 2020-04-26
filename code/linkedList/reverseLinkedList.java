@@ -14,17 +14,34 @@ class Solution {
         space: O(1)
     */
     public ListNode reverseList(ListNode head) {
-        if(head == null) return null;
+        return revereIter(head);
         
-        ListNode prev = head, curr = head.next;
-        while(curr != null) {
+    }
+    
+    private ListNode revereIter(ListNode node) {
+        if(node == null || node.next == null) return node;
+        
+        ListNode prev = null, curr = node;
+        while(curr != null ) {
             ListNode next = curr.next;
+            
             curr.next = prev;
             prev = curr;
             curr = next;
         }
         
-        head.next = null;
         return prev;
+    }
+    
+    private ListNode reverseRecursive(ListNode node) {
+        if(node == null || node.next == null) return node;
+        
+        ListNode rest = reverseRecursive(node.next);
+        ListNode curr = rest;
+        while(curr.next != null) curr = curr.next;
+        curr.next = node;
+        node.next = null;
+        
+        return rest;
     }
 }
