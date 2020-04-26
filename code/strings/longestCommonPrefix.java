@@ -43,3 +43,33 @@ class Solution {
         return sb.toString();
     }
 }
+
+//////////////
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if(strs.length == 0) return "";
+        
+        StringBuilder sb = new StringBuilder();
+        
+        int shortest = lenghtOfShortest(strs);
+        for(int i=0; i<shortest; i++) {
+            char candidateCh = strs[0].charAt(i);
+            for(String str: strs) {
+                if(str.charAt(i) != candidateCh)
+                    return sb.toString();
+            }
+            sb.append(candidateCh);
+        }
+        
+        return sb.toString();
+    }
+    
+    private int lenghtOfShortest(String[] strs) {
+        int shortest = Integer.MAX_VALUE;
+        
+        for(String str: strs)
+            shortest = Math.min(shortest, str.length());
+        
+        return shortest;
+    }
+}
