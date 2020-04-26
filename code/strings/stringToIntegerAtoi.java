@@ -6,47 +6,36 @@ class Solution {
         space: O(1)
     */
     public int myAtoi(String str) {
-        long value = 0;
-        boolean isNeg = false, isExplicitPos = false, valueSpecified = false;
-        for(char c: str.toCharArray()) {
-            if(c == ' ') {
-                if(valueSpecified || isNeg || isExplicitPos) break;
-                else continue;
-            } 
-            else if(c == '+') {
-                if(valueSpecified || isNeg || isExplicitPos) break;
-                else {
-                    isExplicitPos = true;
-                    continue;
-                }
-            }
-            else if(c == '-') {
-                if(valueSpecified || isNeg || isExplicitPos) break;
-                else {
-                    isNeg = true;
-                    continue;
-                }
-            }
-            else if(Character.isDigit(c)){
-                valueSpecified = true;
-                value = value * 10;
-                if(value < 0) value -= Character.getNumericValue(c); 
-                else value += Character.getNumericValue(c); 
-            }
-            else 
-                break;
-            
-            if(isNeg && value > 0) value *= -1;
-            if(value < Integer.MIN_VALUE) {
-                value = Integer.MIN_VALUE;
-                break;
-            }
-            else if(value > Integer.MAX_VALUE) {
-                value = Integer.MAX_VALUE;
-                break;
-            }
+        long number = 0;
+        boolean isNeg = false;
+        int i = 0;
+        // whitespace
+        for(;i<str.length(); i++) {
+            if(str.charAt(i) == ' ') continue;
+            else break;
         }
         
-        return (int) value;
+        // sign - or +
+        if(i>=0 && i<str.length()) {
+            if(str.charAt(i) == '-') {
+                isNeg = true;
+                i++;
+            } else if(str.charAt(i) == '+') i++;
+        }
+        
+        // number (over/under flow)
+        for(;i<str.length(); i++) {
+            if(!Character.isDigit(str.charAt(i))) break;
+            number = number * 10 + Character.getNumericValue(str.charAt(i));
+            if(!isNeg && number > Integer.MAX_VALUE) {
+                return Integer.MAX_VALUE;
+            } else if(isNeg && -number < Integer.MIN_VALUE) {
+                return Integer.MIN_VALUE;
+            }
+        }
+    
+        // ignore rest
+        
+        return isNeg ? -(int)number : (int)number;
     }
 }
