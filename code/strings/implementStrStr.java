@@ -6,24 +6,21 @@ class Solution {
         space: O(1)
     */
     public int strStr(String haystack, String needle) {
-        if(needle.length() == 0) return 0;
+        if(needle.isEmpty()) return 0;
         
-        for(int h=0, n=0; h < haystack.length(); h++) {
-            char hChar = haystack.charAt(h);
-            char nChar = needle.charAt(n);
-        
-            if(hChar == nChar) {
-                n++;
-                
-                if(n == needle.length()) 
-                    return h-n + 1;
-            }
-            else {
-                h -= n;
-                n = 0;
+        int needleIndex=0;
+        for(int i=0; i<haystack.length(); i++) {
+            char cH = haystack.charAt(i);
+            char cN = needle.charAt(needleIndex);
+            
+            if(cH == cN) {
+                needleIndex++;
+                if(needleIndex == needle.length()) return i-needleIndex+1;
+            } else {
+                i-=needleIndex;
+                needleIndex = 0;
             }
         }
-        
         return -1;
     }
 }
