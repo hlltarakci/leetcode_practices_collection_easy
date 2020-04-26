@@ -9,20 +9,16 @@ public class Solution extends VersionControl {
         space: O(log n) -- recursion stack.. 
     */
     public int firstBadVersion(int n) {
-        return firstBadVersion(0, n, n);
+        return firstBadVersion(1, n);
     }
     
-    private int firstBadVersion(int min, int max, int knownLastVersion) {
-        if(min >= max) {
-            return isBadVersion(min) ? min : knownLastVersion;
-        }
-        
+    public int firstBadVersion(int min, int max) {
+        if(min > max) return -1;
         int mid = min + (max-min)/2;
+        boolean isMidBad = isBadVersion(mid);
+        if(isMidBad && !isBadVersion(mid-1) ) return mid;
         
-        if(isBadVersion(mid)) {
-            knownLastVersion = mid;
-            return firstBadVersion(min, mid-1, knownLastVersion);
-        }
-        else return firstBadVersion(mid+1, max, knownLastVersion);
+        if(isMidBad) return firstBadVersion(min, mid-1);
+        else return firstBadVersion(mid+1, max);
     }
 }
