@@ -7,25 +7,26 @@ class Solution {
         space: O(n) -- recursion stack
     */
     public String countAndSay(int n) {
-        if(n == 1) return "1";
-        
-        String prev = countAndSay(n-1);
-        
-        StringBuffer sb = new StringBuffer();
-        int freq = 0;
-        char lastChar = ' ';
-        for(char c: prev.toCharArray()) {
-            if(c == lastChar) freq++;
-            else {
-                if(freq > 0) sb.append(freq).append(lastChar);
-                
-                freq = 1;
-                lastChar = c;
+        String say = "1";
+        while(n-- > 1) {
+            StringBuilder sb = new StringBuilder();
+            
+            int freq=1;
+            char val=say.charAt(0);
+            for(int i=1; i<say.length(); i++) {
+                if(val == say.charAt(i)) freq++;
+                else {
+                    sb.append(freq).append(val);
+                    freq=1;
+                    val=say.charAt(i);
+                }
             }
+            sb.append(freq).append(val);
+            
+            say = sb.toString();
         }
-        if(freq > 0) sb.append(freq).append(lastChar);
         
-        return sb.toString();
+        return say;
     }
     
 }
