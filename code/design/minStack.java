@@ -1,37 +1,30 @@
 // https://leetcode.com/problems/min-stack/
 
 class MinStack {
-    private class IntWithMin {
-        private int val;
-        private int minSoFar;
-        public IntWithMin(int val, int minSoFar) {
-            this.val = val;
-            this.minSoFar = minSoFar;
-        }
-    }
-    List<IntWithMin> list = new ArrayList<>();
+    Stack<Integer> stack = new Stack<>();
+    Stack<Integer> minStack = new Stack<>();
 
     /** initialize your data structure here. */
     public MinStack() {
+        
     }
     
     public void push(int x) {
-        if(list.isEmpty())
-            list.add(new IntWithMin(x, x));
-        else 
-            list.add(new IntWithMin(x, Math.min(getMin(), x)));
+        stack.push(x);
+        if(minStack.isEmpty() || x <= minStack.peek()) minStack.push(x);
     }
     
     public void pop() {
-        list.remove(list.size()-1);
+        int val = stack.pop();
+        if(val == minStack.peek()) minStack.pop();
     }
     
     public int top() {
-        return list.get(list.size()-1).val;
+        return stack.peek();
     }
     
     public int getMin() {
-        return list.get(list.size()-1).minSoFar;
+        return minStack.peek();
     }
 }
 
